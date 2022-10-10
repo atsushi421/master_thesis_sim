@@ -1,4 +1,7 @@
 ###### Requirements without Version Specifiers ######`
+networkx
+pydot
+
 flake8
 mypy
 autopep8
