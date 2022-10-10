@@ -1,5 +1,6 @@
 import argparse
 
+from src.dag_formatter import DAGFormatter
 from src.dag_reader import DAGReader
 
 
@@ -16,6 +17,7 @@ def option_parser():
 
 def main(dag_dir):
     dags = DAGReader.read(dag_dir, 'dot')
+    DAGFormatter.format(dags, 'us')
     pass  # TODO
 
 
