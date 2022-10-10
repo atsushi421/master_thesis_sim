@@ -6,19 +6,18 @@ import networkx as nx
 
 class DAGReader:
 
-    def __init__(self, dag_dir: str) -> None:
-        self._dag_dir = dag_dir
-
-    def read(self, format: str) -> List[nx.DiGraph]:
+    @staticmethod
+    def read(dag_dir: str, format: str) -> List[nx.DiGraph]:
         if format.lower() == 'dot':
-            dags = self._read_dot()
+            dags = DAGReader._read_dot(dag_dir)
         else:
             NotImplementedError()
 
         return dags
 
-    def _read_dot(self) -> List[nx.DiGraph]:
-        dag_paths = glob.glob(f"{self._dag_dir}/**/*.dot",
+    @staticmethod
+    def _read_dot(dag_dir: str) -> List[nx.DiGraph]:
+        dag_paths = glob.glob(f"{dag_dir}/**/*.dot",
                               recursive=True)
 
         dag_list: List[nx.DiGraph] = []
@@ -26,12 +25,12 @@ class DAGReader:
             tmp_dag = nx.drawing.nx_pydot.read_dot(dag_path)
             tmp_dag = nx.DiGraph(tmp_dag)
             tmp_dag.remove_node('\\n')
-            dag_list.append(self._convert_property_str_to_int(tmp_dag))
+            dag_list.append(DAGReader._convert_property_str_to_int(tmp_dag))
 
         return dag_list
 
+    @staticmethod
     def _convert_property_str_to_int(
-        self,
         tmp_dag: nx.DiGraph
     ) -> nx.DiGraph:
         dag = nx.DiGraph()

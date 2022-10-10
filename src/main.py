@@ -15,8 +15,7 @@ def option_parser():
 
 
 def main(dag_dir):
-    dag_reader = DAGReader(dag_dir)
-    dags = dag_reader.read('dot')
+    dags = DAGReader.read(dag_dir, 'dot')
     pass  # TODO
 
 

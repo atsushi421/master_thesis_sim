@@ -10,8 +10,7 @@ def get_test_dags_dir_path() -> str:
 
 class TestDAGReader:
     def test_read_dot(self):
-        dag_reader = DAGReader(get_test_dags_dir_path())
-        dags = dag_reader.read('dot')
+        dags = DAGReader.read(get_test_dags_dir_path(), 'dot')
 
         assert isinstance(dags, list)
         for dag in dags:
