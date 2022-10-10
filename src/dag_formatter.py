@@ -9,11 +9,16 @@ from src.dag import DAG
 class DAGFormatter:
 
     @staticmethod
-    def format(dags: List[DAG], unit: str = 'ms') -> None:
+    def format(
+        dags: List[DAG],
+        unit: str = 'ms',
+        comm_ratio_min: float = 0.001,
+        comm_ratio_max: float = 0.01
+    ) -> None:
         for dag in dags:
             DAGFormatter._convert_unit(dag, unit)
             DAGFormatter._rename_atrr(dag)
-            DAGFormatter._divide_wcet(dag)
+            DAGFormatter._divide_wcet(dag, comm_ratio_min, comm_ratio_max)
             DAGFormatter._set_dag_param(dag)
         connection = DAGFormatter._random_add_edges(dags)
         DAGFormatter._ensure_weakly_connected(dags, connection)
@@ -92,12 +97,16 @@ class DAGFormatter:
                 del dag.nodes[node_i]['Offset']
 
     @ staticmethod
-    def _divide_wcet(dag: DAG) -> None:
+    def _divide_wcet(
+        dag: DAG,
+        comm_ratio_min: float,
+        comm_ratio_max: float
+    ) -> None:
         for node_i in dag.nodes:
             exec = dag.nodes[node_i]['WCET']
-            read = int(exec * random.uniform(0.001, 0.01))
+            read = int(exec * random.uniform(comm_ratio_min, comm_ratio_max))
             dag.nodes[node_i]['read'] = read
-            write = int(exec * random.uniform(0.001, 0.01))
+            write = int(exec * random.uniform(comm_ratio_min, comm_ratio_max))
             dag.nodes[node_i]['write'] = write
             dag.nodes[node_i]['exec'] = exec-read-write
 

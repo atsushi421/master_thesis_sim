@@ -17,7 +17,7 @@ def option_parser():
 
 def main(dag_dir):
     dags = DAGReader.read(dag_dir, 'dot')
-    DAGFormatter.format(dags, 'us')
+    DAGFormatter.format(dags, 'us', 0.001, 0.01)
     pass  # TODO
 
 
