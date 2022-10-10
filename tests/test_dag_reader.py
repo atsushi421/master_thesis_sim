@@ -1,6 +1,6 @@
 import os
 
-import networkx as nx
+from src.dag import DAG
 from src.dag_reader import DAGReader
 
 
@@ -14,7 +14,7 @@ class TestDAGReader:
 
         assert isinstance(dags, list)
         for dag in dags:
-            assert isinstance(dag, nx.DiGraph)
+            assert isinstance(dag, DAG)
 
         dag0 = dags[0]
         for value in dag0.nodes[0].values():
