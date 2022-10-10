@@ -36,6 +36,7 @@ class TestDAGFormatter:
             assert dag.Di >= 1000
             assert isinstance(dag.Li, int)
             assert dag.Li >= 1000
+            assert dag.Li <= dag.Ci
 
         after_dag0 = dags[0]
         for node_i in after_dag0:
