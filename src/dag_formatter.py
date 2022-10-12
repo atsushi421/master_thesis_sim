@@ -36,8 +36,8 @@ class DAGFormatter:
         for dag_p in dags:
             for dag_s in dags:
                 if _add_edge_lottery() and dag_p.id < dag_s.id:
-                    dag_p.succ.append(dag_s.id)
-                    dag_s.pred.append(dag_p.id)
+                    dag_p.succ.append(dag_s)
+                    dag_s.pred.append(dag_p)
                     connection.add_edge(dag_p.id, dag_s.id)
 
         return connection
@@ -60,8 +60,10 @@ class DAGFormatter:
                     {connection.in_degree(t): t for t in target_nodes}
                 target_i = min(target_in_degree.items())[1]
 
-                dags[src_i].succ.append(target_i)
-                dags[target_i].pred.append(src_i)
+                dags[src_i].succ.append(
+                    [dag for dag in dags if dag.id == target_i][0])
+                dags[target_i].pred.append(
+                    [dag for dag in dags if dag.id == src_i][0])
                 connection.add_edge(src_i, target_i)
 
         return connection
